@@ -3,6 +3,7 @@
   "displayName": "furigana-generator",
   "description": "An extension to generate furigana from kanji.",
   "version": "0.0.1",
+  "publisher": "Ekstasis",
   "engines": {
     "vscode": "^1.71.0"
   },
