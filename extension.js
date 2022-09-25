@@ -13,8 +13,7 @@ const vscode = require('vscode');
  */
 function activate(context) {
 
-	const kuroshiro = new Kuroshiro();
-	kuroshiro.init(new KuromojiAnalyzer())
+
 
 	let disposable = vscode.commands.registerCommand('furigana-generator.gen-furigana', function () {
 		const editor = vscode.window.activeTextEditor;
@@ -24,13 +23,14 @@ function activate(context) {
 			const selection = editor.selection;
 
 			const sentence = document.getText(selection);
-
-			kuroshiro.convert(sentence, { to: "hiragana", mode: "okurigana" })
-				.then(function (result) {
-					editor.edit(editBuilder => {
-						editBuilder.replace(selection, result);
-					});
-				})
+			const kuroshiro = new Kuroshiro();
+			kuroshiro.init(new KuromojiAnalyzer()).then(() => {
+				return kuroshiro.convert(sentence, { to: "hiragana", mode: "okurigana" });
+			}).then(function (result) {
+				editor.edit(editBuilder => {
+					editBuilder.replace(selection, result);
+				});
+			});
 		}
 	});
 
